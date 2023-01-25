@@ -2,7 +2,6 @@ import json
 import spotipy 
 import webbrowser
 import spotipy.util as util
-from pytube import YouTube
 import random as rd
 
 username = 'USERNAME'
