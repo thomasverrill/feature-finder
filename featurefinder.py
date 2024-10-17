@@ -19,7 +19,7 @@ user_name = spotifyObject.current_user()
 # To print the response in readable format.
 # print(json.dumps(user_name, sort_keys=True, indent=4))
 
-def __createSpotifyObject():
+def __create_spotify_object():
     """Will create a spotify object and return it"""
 
     # Defining the scope(s) of the application
@@ -32,9 +32,9 @@ def __createSpotifyObject():
     return spotipy.Spotify(auth=token)
 
 
-sp = __createSpotifyObject()
+sp = __create_spotify_object()
 
-def CreatePlaylist(u,pn): 
+def create_playlist(u,pn): 
     playlists = sp.user_playlists(u)
     for playlist in playlists['items']:  # iterate through playlists I follow
         if playlist['name'] == pn:  # filter for newly created playlist
@@ -42,7 +42,7 @@ def CreatePlaylist(u,pn):
             return ""
     sp.user_playlist_create(u, name=pn)
 
-def GetPlaylistID(username, playlist_name):
+def get_playlist_id(username, playlist_name):
     playlist_id = ''
     playlists = sp.user_playlists(username)
     for playlist in playlists['items']:  # iterate through playlists I follow
@@ -50,11 +50,11 @@ def GetPlaylistID(username, playlist_name):
             playlist_id = playlist['id']
     return playlist_id
 
-def AddTracksToPlaylist(p_id, songs): 
+def add_tracks_to_playlist(p_id, songs): 
     sp.playlist_add_items(p_id, songs)
 
 
-def GetTrackIDs(sample_data):
+def get_track_ids(sample_data):
     track_ids = []
     for i in range(len(sample_data)):
         results = sp.search(q=sample_data[i], limit=5, type='track') #get 5 responses since first isn't always accurate
@@ -65,7 +65,7 @@ def GetTrackIDs(sample_data):
     return track_ids
 
 
-def GetArtistIDs(artists):
+def get_artist_ids(artists):
     artist_ids = []
     for i in range(len(artists)):
         results = sp.search(q=artists[i], limit=5, type='artist') 
@@ -76,7 +76,7 @@ def GetArtistIDs(artists):
     if(len(artists) != len(artist_ids)): print('not all artists on spotify')
     return artist_ids
 
-def FindArtistSongs(artist_id):
+def find_artist_songs(artist_id):
     alb_list = sp.artist_albums(artist_id, 'album', limit=50)
     alb_ids = []
     for i in range(len(alb_list['items'])):
@@ -125,8 +125,8 @@ def show_artist_albums(artist):
         albums.extend(results['items'])
     return albums
 
-def FeatureFinder(artist):
-    songs = AllSongs(artist)
+def feature_finder(artist):
+    songs = all_songs(artist)
     artist_name_list = []
     for i in range(len(songs)):
         for j in range(len(songs[i]['artists'])):
@@ -134,7 +134,7 @@ def FeatureFinder(artist):
     return list(set(artist_name_list))
 
 
-def AllSongs(artist1):
+def all_songs(artist1):
     artist = get_artist(artist1)
     albums = show_artist_albums(artist)
     return show_album_tracks(albums)
@@ -144,4 +144,4 @@ def AllSongs(artist1):
 # **********
 #outputs every artist that the given artist has worked with on spotify songs
 
-print(FeatureFinder(input("Which artist's features would you like to see?: ").strip()))
+print(feature_finder(input("Which artist's features would you like to see?: ").strip()))
