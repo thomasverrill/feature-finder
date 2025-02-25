@@ -15,6 +15,7 @@ token_dict = oauth_object.get_access_token()
 token = token_dict['access_token']
 spotifyObject = spotipy.Spotify(auth=token)
 user_name = spotifyObject.current_user()
+sp = __create_spotify_object()
   
 # To print the response in readable format.
 # print(json.dumps(user_name, sort_keys=True, indent=4))
@@ -30,9 +31,6 @@ def __create_spotify_object():
 
     # Returning our spotify object
     return spotipy.Spotify(auth=token)
-
-
-sp = __create_spotify_object()
 
 def create_playlist(u,pn): 
     playlists = sp.user_playlists(u)
@@ -143,5 +141,5 @@ def all_songs(artist1):
 
 # **********
 #outputs every artist that the given artist has worked with on spotify songs
-
-print(feature_finder(input("Which artist's features would you like to see?: ").strip()))
+if __name__ == "__main__":
+  print(feature_finder(input("Which artist's features would you like to see?: ").strip()))
